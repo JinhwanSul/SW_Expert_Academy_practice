@@ -20,7 +20,7 @@ int check_valid(int* code);
 
 int main(){
     int TC, N, M;
-    int i, j, k, l;
+    int i, j, k, l, m;
 
     char* s;
     char* ptr;
@@ -102,24 +102,59 @@ int main(){
                 for(k=0;k<80;k++){
                     curr_value[k] = 0;
                 }
+
+                l = 0;
+
                 while(decoded_value != -2){
                     decoded_value = decode(code);
                     if(decoded_value > 0){
-                        //isValid = 1; 
-                        curr_value[decoded_value]++;
-                        //answer[i] += decoded_value;
+                        //curr_value[decoded_value]++;
+                        curr_value[l++] = decoded_value;
                     }
                 }
-
+                int newly_added = 1;
+                int dec;
+                for(k=0; k<l; k++){
+                    for(m=0; m<40; m++){
+                        if(curr_value[k] == prev_value[m]){
+                            newly_added = 0;
+                            break;
+                        }
+                    }
+                    if(newly_added == 1){
+                        dec = curr_value[k];
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                        dec /= 10;
+                        answer[i] += dec%10;
+                    }
+                    newly_added = 1;
+                }
+                for(k=0; k<40; k++){
+                    prev_value[k] = curr_value[k];
+                }
+                /*
                 for(k=0;k<80;k++){
                     if(prev_value[k] < curr_value[k]){
                         answer[i] += k*(curr_value[k] - prev_value[k]); 
                     }
                     prev_value[k] = curr_value[k];
                 }
-                
+                */
                 decoded_value = 0;
-
 
                 //check if code is valid
                 free(code);
@@ -249,6 +284,7 @@ int decode(char *s){
     }
     
     return check_valid(code);
+    // return 10000000*code[0]+1000000*code[1]+100000*code[2]+10000*code[3]+1000*code[4]+100*code[5]+10*code[6]+code[7];
 }
 
 int decode_each(char* s){
@@ -284,12 +320,12 @@ int decode_each(char* s){
         return 9;
     }
     return -1;
-
 }
 
 int check_valid(int* code){
     if( ((code[0]+code[2]+code[4]+code[6])*3 + code[1]+code[3]+code[5]+code[7]) % 10 == 0)
-        return code[0]+code[1]+code[2]+code[3]+code[4]+code[5]+code[6]+code[7];
+        // return code[0]+code[1]+code[2]+code[3]+code[4]+code[5]+code[6]+code[7];
+        return 10000000*code[0]+1000000*code[1]+100000*code[2]+10000*code[3]+1000*code[4]+100*code[5]+10*code[6]+code[7];
     else return -1;
 }
 
