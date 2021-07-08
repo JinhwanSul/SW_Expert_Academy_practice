@@ -146,7 +146,7 @@ int is_new_block(vector<vector<int> > &code_blocks, int n, int m)
     vector<vector<int> >::iterator iter;
     for (iter = code_blocks.begin(); iter != code_blocks.end(); iter++) {
         // printf("(%d, %d) (%d, %d)\n", (*iter)[0], (*iter)[1],(*iter)[2],(*iter)[3]);
-        if((*iter)[0] <= n && n <= (*iter)[2] && (*iter)[3] <= m && (*iter)[1]) {
+        if((*iter)[0] <= n && n <= (*iter)[2] && (*iter)[3] <= m && m <= (*iter)[1]) {
             return 0; // (n,m) in same block
         }
     }
@@ -164,7 +164,7 @@ void add_new_block(vector<vector<int> > &code_blocks, int n, int m, int ratio, i
     new_block.push_back(m);
     new_block.push_back(i-1);
     new_block.push_back(m-56*ratio+1);
-    printf("new block! ratio=%d, (%d, %d) (%d, %d)\n",ratio,n,m,i-1,m-56*ratio+1);
+    // printf("new block! ratio=%d, (%d, %d) (%d, %d)\n",ratio,n,m,i-1,m-56*ratio+1);
     code_blocks.push_back(new_block);
 }
 
@@ -207,7 +207,7 @@ int main(int argc, char** argv)
     unsigned int value, value_backup;
     vector<vector<int> > code_block;
     int matched;
-	freopen("sample_input.txt", "r", stdin);
+	freopen("sample_input copy.txt", "r", stdin);
 	cin>>T;
 	for(test_case = 1; test_case <= T; ++test_case)
 	{
@@ -225,14 +225,14 @@ int main(int argc, char** argv)
             }
         }
 
-        FILE *fd = fopen("input_bi.txt", "w");
-        for(i = 0; i < N; i++) {
-            for(j = 0; j < 4*M; j++){
-                fputc(input_bi[i][j]+'0', fd);
-            }
-            fputc('\n', fd);
-        }
-        fclose(fd);
+        // FILE *fd = fopen("input_bi.txt", "w");
+        // for(i = 0; i < N; i++) {
+        //     for(j = 0; j < 4*M; j++){
+        //         fputc(input_bi[i][j]+'0', fd);
+        //     }
+        //     fputc('\n', fd);
+        // }
+        // fclose(fd);
 
         for(i = 0; i < N; i++) {
             for(j = 4*M-1; j >= 0; j--) {
@@ -242,7 +242,7 @@ int main(int argc, char** argv)
                     // printf("ratio = %d\n", ratio);
                     add_new_block(code_block, i, j, ratio, input_bi);
                     valid = get_code(input_bi, ratio, i, j);
-                    printf("code_cnt= %d, valid = %d\n",code_cnt, valid);
+                    // printf("code_cnt= %d, valid = %d\n",code_cnt, valid);
                     if (valid > 0) {
                         result += valid;
                     }
